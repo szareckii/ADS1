@@ -5,16 +5,20 @@ import lesson3.queue.Queue;
 import lesson3.queue.QueueImpl;
 import lesson3.stack.Stack;
 import lesson3.stack.StackImpl;
+import lesson4.LinkedQueueImpl;
+import lesson4.LinkedStackImpl;
 
 public class Test {
 
     public static void main(String[] args) {
-  //      testStack();
+//        testStack();
         testQueue();
+
     }
 
     private static void testStack() {
-        Stack<Integer> stack = new StackImpl<>(5);
+        Stack<Integer> stack = new LinkedStackImpl<>();
+//        Stack<Integer> stack = new StackImpl<>(5);
 
         System.out.println("Add value 1: " + addToStack(stack, 1));
         System.out.println("Add value 2: " + addToStack(stack, 2));
@@ -41,8 +45,8 @@ public class Test {
 
     private static void testQueue() {
 //        Queue<Integer> queue = new QueueImpl<>(5);
-        Queue<Integer> queue = new PriorityQueue<>(5);
-
+        Queue<Integer> queue = new LinkedQueueImpl<>();
+//        Queue<Integer> queue = new PriorityQueue<>(5);
         System.out.println(queue.insert(3));
         System.out.println(queue.insert(5));
         System.out.println(queue.insert(1));
@@ -58,4 +62,5 @@ public class Test {
             System.out.println(queue.remove());
         }
     }
+
 }
