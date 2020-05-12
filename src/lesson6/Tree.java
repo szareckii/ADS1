@@ -3,9 +3,9 @@ package lesson6;
 public interface Tree<E extends Comparable<? super E>> {
 
     enum TraverseMode {
-        IN_ORDER,       //симмеричный
-        PRE_ORDER,      //прямой
-        POST_ORDER,     //обратный
+        IN_ORDER,
+        PRE_ORDER,
+        POST_ORDER,
     }
 
     boolean add(E value);
@@ -21,7 +21,5 @@ public interface Tree<E extends Comparable<? super E>> {
     void display();
 
     void traverse(TraverseMode mode);
-
-    int deep();
 
 }

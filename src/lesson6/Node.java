@@ -19,12 +19,12 @@ public class Node<T extends Comparable<? super T>> {
         return leftChild;
     }
 
-    public Node<T> getRightChild() {
-        return rightChild;
-    }
-
     public void setLeftChild(Node<T> leftChild) {
         this.leftChild = leftChild;
+    }
+
+    public Node<T> getRightChild() {
+        return rightChild;
     }
 
     public void setRightChild(Node<T> rightChild) {
