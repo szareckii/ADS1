@@ -6,6 +6,8 @@ public class TreeImpl<E extends Comparable<? super E>> implements Tree<E> {
 
     private Node<E> root;
     private int size;
+    private int level;
+    private final int MAXDEEP = 4;
 
     @Override
     public boolean add(E value) {
@@ -17,6 +19,8 @@ public class TreeImpl<E extends Comparable<? super E>> implements Tree<E> {
         }
 
         Node<E> parent = findParentForNewNode(value);
+        int level = findLevelForNewNode(value);
+
         if (parent == null) {
             return false;
         }
@@ -58,72 +62,6 @@ public class TreeImpl<E extends Comparable<? super E>> implements Tree<E> {
 
         size--;
         return true;
-    }
-
-    private void removeCommonNode(Node<E> parent, Node<E> removedNode) {
-        Node<E> successor = getSuccesor(removedNode);
-        if (removedNode == root) {
-            root = successor;
-        }
-        else if (parent.getLeftChild() == removedNode) {
-            parent.setLeftChild(successor);
-        }
-        else {
-            parent.setRightChild(successor);
-        }
-
-        successor.setLeftChild(removedNode.getLeftChild());
-
-
-    }
-
-    private Node<E> getSuccesor(Node<E> removedNode) {
-        Node<E> successor = removedNode;
-        Node<E> succesorParent = null;
-        Node<E> current = removedNode.getRightChild();
-
-        while (current != null) {
-            succesorParent = successor;
-            successor = current;
-            current = current.getLeftChild();
-        }
-
-        if (successor != removedNode.getRightChild() && succesorParent != null) {
-            succesorParent.setLeftChild(successor.getRightChild());
-            successor.setRightChild(removedNode.getRightChild());
-        }
-
-        return successor;
-    }
-
-    private void removeNodeWithSingleChild(Node<E> parent, Node<E> removedNode) {
-        Node<E> childNode = removedNode.getLeftChild() != null ? removedNode.getLeftChild() : removedNode.getRightChild();
-
-        if (removedNode == null) {
-            root = childNode;
-        }
-        else if (parent.getLeftChild() == removedNode) {
-            parent.setLeftChild(childNode);
-        }
-        else {
-            parent.setRightChild(childNode);
-        }
-    }
-
-    private boolean hasOnlySingleChileNode(Node<E> removedNode) {
-        return removedNode.getLeftChild() != null ^ removedNode.getRightChild() != null;
-    }
-
-    private void removeLeafNode(Node<E> removedNode, Node<E> parent) {
-        if (parent == null) {
-            root = null;
-        }
-        else if (parent.getLeftChild() == removedNode) {
-            parent.setLeftChild(null);
-        }
-        else {
-            parent.setRightChild(null);
-        }
     }
 
     @Override
@@ -198,8 +136,12 @@ public class TreeImpl<E extends Comparable<? super E>> implements Tree<E> {
                 break;
             default:
                 throw new  IllegalArgumentException("Unknown value: " + mode);
-
         }
+    }
+
+    @Override
+    public int deep() {
+        return deep;
     }
 
     private void inOrder(Node<E> current) {
@@ -233,15 +175,22 @@ public class TreeImpl<E extends Comparable<? super E>> implements Tree<E> {
         return doFind(value).parent;
     }
 
+    private int findLevelForNewNode(E value) {
+        return doFind(value).level;
+    }
+
+
     private NodeAndItsParent doFind(E value) {
         Node<E> parent = null;
         Node<E> current = root;
+        level = 0;
         while (current != null) {
             if (current.getValue().equals(value)) {                     // ВОТ ТУТ ПРОВЕРКА НА НЕСОВПОДЕНИЕ
-                return new NodeAndItsParent(current, parent);
+                return new NodeAndItsParent(current, parent, level);
             }
 
             parent = current;
+            level++;
 
             if (value.compareTo(current.getValue()) > 0) {
                 current = current.getRightChild();
@@ -249,16 +198,84 @@ public class TreeImpl<E extends Comparable<? super E>> implements Tree<E> {
                 current = current.getLeftChild();
             }
         }
-        return new NodeAndItsParent(null, parent);
+        return new NodeAndItsParent(null, parent, level);
+    }
+
+    private void removeCommonNode(Node<E> parent, Node<E> removedNode) {
+        Node<E> successor = getSuccesor(removedNode);
+        if (removedNode == root) {
+            root = successor;
+        }
+        else if (parent.getLeftChild() == removedNode) {
+            parent.setLeftChild(successor);
+        }
+        else {
+            parent.setRightChild(successor);
+        }
+
+        successor.setLeftChild(removedNode.getLeftChild());
+
+
+    }
+
+    private Node<E> getSuccesor(Node<E> removedNode) {
+        Node<E> successor = removedNode;
+        Node<E> succesorParent = null;
+        Node<E> current = removedNode.getRightChild();
+
+        while (current != null) {
+            succesorParent = successor;
+            successor = current;
+            current = current.getLeftChild();
+        }
+
+        if (successor != removedNode.getRightChild() && succesorParent != null) {
+            succesorParent.setLeftChild(successor.getRightChild());
+            successor.setRightChild(removedNode.getRightChild());
+        }
+
+        return successor;
+    }
+
+    private void removeNodeWithSingleChild(Node<E> parent, Node<E> removedNode) {
+        Node<E> childNode = removedNode.getLeftChild() != null ? removedNode.getLeftChild() : removedNode.getRightChild();
+
+        if (removedNode == null) {
+            root = childNode;
+        }
+        else if (parent.getLeftChild() == removedNode) {
+            parent.setLeftChild(childNode);
+        }
+        else {
+            parent.setRightChild(childNode);
+        }
+    }
+
+    private boolean hasOnlySingleChileNode(Node<E> removedNode) {
+        return removedNode.getLeftChild() != null ^ removedNode.getRightChild() != null;
+    }
+
+    private void removeLeafNode(Node<E> removedNode, Node<E> parent) {
+        if (parent == null) {
+            root = null;
+        }
+        else if (parent.getLeftChild() == removedNode) {
+            parent.setLeftChild(null);
+        }
+        else {
+            parent.setRightChild(null);
+        }
     }
 
     private class NodeAndItsParent {
         Node<E> current;
         Node<E> parent;
+        int level;
 
-        public NodeAndItsParent(Node<E> current, Node<E> parent) {
+        public NodeAndItsParent(Node<E> current, Node<E> parent, int lever) {
             this.current = current;
             this.parent = parent;
+            this.level = lever;
         }
     }
 

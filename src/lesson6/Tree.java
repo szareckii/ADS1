@@ -12,7 +12,7 @@ public interface Tree<E extends Comparable<? super E>> {
 
     boolean contains(E value);
 
-    boolean     remove(E value);
+    boolean remove(E value);
 
     boolean isEmpty();
 
@@ -21,5 +21,7 @@ public interface Tree<E extends Comparable<? super E>> {
     void display();
 
     void traverse(TraverseMode mode);
+
+    int deep();
 
 }
