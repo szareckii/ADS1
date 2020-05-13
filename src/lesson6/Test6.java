@@ -23,14 +23,13 @@ public class Test6 {
 
         tree.traverse(Tree.TraverseMode.IN_ORDER);
 
-       // System.out.println(tree.deep());
         tree.display();
 
-//        System.out.println("Contains 30: " + tree.contains(new Person(30, "Alex")));
-//        System.out.println("Contains 77: " + tree.contains(new Person(77, "Alex")));
-//
-//        tree.remove(new Person(25, "Alex"));
-//        tree.display();
+        System.out.println("Contains 30: " + tree.contains(new Person(30, "Alex")));
+        System.out.println("Contains 77: " + tree.contains(new Person(77, "Alex")));
+
+        tree.remove(new Person(25, "Alex"));
+        tree.display();
     }
 
 }

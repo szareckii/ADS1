@@ -171,6 +171,24 @@ public class TreeImpl<E extends Comparable<? super E>> implements Tree<E> {
         }
     }
 
+    @Override
+    public boolean isBal() {
+        return isBalanced(root);
+    }
+
+    @Override
+    public boolean isBalanced(Node<E> root) {
+        return (root == null) ||
+                isBalanced(root.getLeftChild()) &&
+                        isBalanced(root.getRightChild()) &&
+                        Math.abs(height(root.getLeftChild()) - height(root.getRightChild())) <= 1;
+    }
+
+    @Override
+    public int height(Node<E> node) {
+        return node == null ? 0 : 1 + Math.max(height(node.getLeftChild()), height(node.getRightChild()));
+    }
+
     private void inOrder(Node<E> current) {
         if (current == null) {
             return;

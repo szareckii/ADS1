@@ -42,7 +42,7 @@ public class TreeImplDZ<E extends Comparable<? super E>> extends TreeImpl<E> {
         int level = findLevelForNewNode(value);
 
 
-            if (parent == null || level > 4 || current != null) {
+            if (parent == null || current != null || level > 4) {
                 return false;
             }
             else if (value.compareTo(parent.getValue()) > 0) {
@@ -53,15 +53,10 @@ public class TreeImplDZ<E extends Comparable<? super E>> extends TreeImpl<E> {
 
             size++;
             return true;
-//        } else {
-//            System.out.println("Level more than 4! Node " + value + " no add.");
-//            return false;
-//        }
     }
 
     private int findLevelForNewNode(E value) {
         return doFind(value).level;
     }
-
 
 }

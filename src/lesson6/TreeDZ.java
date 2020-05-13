@@ -2,54 +2,36 @@ package lesson6;
 
 public class TreeDZ {
 
-//    private final int RANGE = 50;
-
     public static void main(String[] args) {
 
-        final int RANGE = 50;
-        int count = 0;
+        final int RANGE = 50;   // [-25...+25]
+        final int colTree = 20;
+        int countBal = 0;
 
-//        TreeImplDZ[] array  = new TreeImplDZ[20];
-//        array[i] = new TreeImplDZ<>();
 
-        Tree<Integer> tree = new TreeImplDZ<>();
+        Tree[] array  = new TreeImplDZ[colTree];
 
-       // for (int i = 0; i < 15; i++) {
-            //array[i] = new TreeImplDZ<>();
-/*
-        tree.add(-12);
-        tree.add(16);
-        tree.add(5);
-        tree.add(1);
-        tree.add(2);
-        tree.add(-3);
-        tree.add(-13);
-        tree.add(18);
-        tree.add(4);
-        tree.add(31);
-        tree.add(22);
-        tree.add(-43);
-        tree.add(-62);
-        tree.add(34);
-        tree.add(12);
-        tree.add(11);
-        tree.add(22);
-        tree.add(-30);
-*/
+        for (int j = 0; j < colTree; j++) {
+            array[j] = new TreeImplDZ<>();
 
-        for (int i = 0; i < 15; i++) {
-           int id = -1 * RANGE/2 + (int) (Math.random() * RANGE);
-            tree.add(id);
+            for (int i = 0; i < 15; i++) {
+                int id = -1 * RANGE / 2 + (int) (Math.random() * RANGE);
+                array[j].add(id);
+
+            }
+
+            if (array[j].isBal()) {
+                countBal++;
+            }
+
+//          array[j].display();
+//            System.out.println(array[j].isBal());
         }
 
-
-        //}
-        //Tree<Integer> tree = new TreeImplDZ<>();
-
-
-        //array[0].add(new Person(60, "Alex"));
-//        array[0].display();
-        tree.display();
+        System.out.println("All trees: " + colTree);
+        System.out.println("Balanced: " + countBal);
+        System.out.println("Not balanced: " + (colTree - countBal));
+        System.out.println("Percentage of balanced trees: " + (double) countBal/(colTree) * 100 + "%");
 
     }
 }
