@@ -32,6 +32,7 @@ public class TreeDZ {
         System.out.println("Balanced: " + countBal);
         System.out.println("Not balanced: " + (colTree - countBal));
         System.out.println("Percentage of balanced trees: " + (double) countBal/(colTree) * 100 + "%");
+        System.out.println("Percentage of not balanced trees: " + (1- (double) countBal/(colTree)) * 100 + "%");
 
     }
 }
