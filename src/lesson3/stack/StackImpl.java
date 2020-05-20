@@ -5,6 +5,7 @@ public class StackImpl<E> implements Stack<E> {
     private E[] date;
     private int size;
 
+
     @SuppressWarnings("unchecked")
     public StackImpl(int maxSize) {
         this.date = (E[]) new Object[maxSize];
